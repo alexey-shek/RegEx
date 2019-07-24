@@ -7,10 +7,52 @@ import java.util.List;
 import static org.apache.commons.lang3.StringUtils.*;
 
 public class Match {
+
+    public static List<Integer> matchWithDots(String phrase,String regex){
+        String[] textSections = regex.split("\\.");
+        List<Integer> result = new ArrayList<>();
+
+        for (int section = 0; section < textSections.length; section++) {
+            result.add(findStringInOtherString(textSections[section], phrase));
+        }
+        return result;
+    }
+
+
+    public static List<String> match(String phrase,String regex){
+        List<String> result = new ArrayList<>();
+        String text = phrase;
+        int stringposition;
+        do {
+            stringposition = findStringInOtherString(regex,text);
+            if (stringposition < 0){
+                break;
+            }
+            result.add(regex);
+            text = text.substring(stringposition + regex.length());
+        } while ( true);
+        return result;
+    }
+
+
+
+    private static int findStringInOtherString(String string,String otherString){
+        if (string == null || otherString == null){
+            return -1;
+        }
+        return otherString.indexOf(string);
+    }
+
+    //----------------------------------------------------------------
+
     public static void matching(String phrase, String regEx){
         List<Integer> matchingList = indexMatching(phrase, regEx);
 
         for (int matchingListIndexPosition = 0; matchingListIndexPosition < matchingList.size(); matchingListIndexPosition++) {
+            if (regEx.contains("(") || regEx.contains(")")){
+                System.out.print(phrase.substring(matchingList.get(matchingListIndexPosition),matchingList.get(matchingListIndexPosition)+1)+"; ");
+            }
+            else
             System.out.print(phrase.substring(matchingList.get(matchingListIndexPosition), matchingList.get(matchingListIndexPosition)+regEx.length())+"; ");
         }
 
@@ -108,7 +150,7 @@ public class Match {
                 counter++;
             }
         }
-        System.out.println("counter ist gleich: "+counter);
+        System.out.println("counter is: "+counter);
 
         return counter;
     }
@@ -120,5 +162,19 @@ public class Match {
         else {
             return rightSide.length();
         }
+    }
+
+    public static List<Integer> wildcardMatch(String phrase, String regEx){
+        List<Integer> wildcardMatchList = new ArrayList<>();
+        if (phrase.charAt(0)=='.'){
+            for (int phraseIndex = 0; phraseIndex < phrase.length(); phraseIndex++) {
+                if (substringAfter(regEx, ".").equals(phrase.substring(phraseIndex, phraseIndex+regEx.length()+operandCounter('.', regEx)))){
+                    wildcardMatchList.add(phraseIndex);
+                    System.out.println("Match on: "+wildcardMatchList);
+                }
+            }
+        }
+
+        return wildcardMatchList;
     }
 }

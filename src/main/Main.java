@@ -7,17 +7,19 @@ import java.util.Arrays;
 public class Main {
 
     public static void main(String[] args) {
-        String inputPhrase = "baa bab bac";
-        String inputRegEx = "b.c";
+        String inputPhrase = "baa bab baa bbb";
+        String inputRegEx = "b...";
         System.out.println("phrase: "+inputPhrase+", RegEx: "+inputRegEx);
 
         //Match.matching(inputPhrase,inputRegEx);
 
 
         if (inputRegEx.contains(".")){
+            System.out.println(".");
 
-            for (int erg : Match.matchWithDots(inputPhrase, inputRegEx)) {
-                System.out.println("results: " + erg);
+            for (String s : Match.matchWithDots(inputPhrase, inputRegEx)) {
+                System.out.println("for");
+                System.out.println("results: " + s);
             }
         }
         else {
@@ -25,17 +27,6 @@ public class Main {
                 System.out.println("result:" +  s);
             }
         }
-
-
-        String string = "aabaabaabaabaaax";
-        String searchString = "aa";
-        int occurences = 0;
-        if (0 != searchString.length()) {
-            for (int index = string.indexOf(searchString, 0); index != -1; index = string.indexOf(searchString, index + 1)) {
-                occurences++;
-            }
-        }
-        System.out.println(occurences);
 
 
     }

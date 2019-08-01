@@ -27,13 +27,14 @@ public class Match {
         for (int regexCharPosition = 0; regexCharPosition < regex.length(); regexCharPosition++) {
 
             if (regex.charAt(regexCharPosition)=='.'){
-                while (regex.charAt(regexCharPosition)=='.'){
+
+                while (regex.charAt(regexCharPosition)=='.' && regexCharPosition!=regex.length()-1){
                     dotCount++;
                     System.out.println("position: "+regexCharPosition+" dotcount: "+dotCount);
                     regexCharPosition++;
-
                 }
                 regexCharPosition--;
+                System.out.println("position: "+regexCharPosition);
             }
 
             if (regex.charAt(regexCharPosition)!='.' && dotCount==0){
@@ -51,6 +52,7 @@ public class Match {
             if (regexCharPosition==regex.length()-1){
                 result.add(tempResult.toString());
             }
+
 
         }
 

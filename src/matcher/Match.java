@@ -28,7 +28,7 @@ public class Match {
 
             if (regex.charAt(regexCharPosition)=='.'){
 
-                while (regex.charAt(regexCharPosition)=='.' && regexCharPosition!=regex.length()-1){
+                while (regex.charAt(regexCharPosition)=='.'){
                     dotCount++;
                     System.out.println("position: "+regexCharPosition+" dotcount: "+dotCount);
                     regexCharPosition++;

@@ -1,62 +1,78 @@
 package matcher;
 
 
+import javax.lang.model.element.Element;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Match {
 
     public static List<String> matchWithDots(String phrase,String regex){
-        List<String> partResult = new ArrayList<>();
+        List<RegexSplit> partResult = new ArrayList<>();
         List<String> result = new ArrayList<>();
 
 
 
-        partResult=dotSubstring(regex);
+        partResult= dotSplit(regex);
         System.out.println(partResult);
+        for (RegexSplit e: partResult
+             ) {
+            System.out.println(e.getPartLiteral()+" "+e.getDotCount());
+        }
 
         return result;
     }
 
-    private static List<String> dotSubstring(String regex){
-        List<String> result = new ArrayList<>();
-        StringBuilder tempResult = new StringBuilder();
+    private static List<RegexSplit> dotSplit(String regex){
+        List<RegexSplit> result = new ArrayList<>();
+        StringBuilder value = new StringBuilder();
         int dotCount = 0;
-
         for (int regexCharPosition = 0; regexCharPosition < regex.length(); regexCharPosition++) {
-
-            if (regex.charAt(regexCharPosition)=='.'){
 
                 while (regex.charAt(regexCharPosition)=='.'){
                     dotCount++;
-                    System.out.println("position: "+regexCharPosition+" dotcount: "+dotCount);
                     regexCharPosition++;
                 }
-                regexCharPosition--;
-                System.out.println("position: "+regexCharPosition);
-            }
-
-            if (regex.charAt(regexCharPosition)!='.' && dotCount==0){
-                tempResult.append(regex.charAt(regexCharPosition));
-                System.out.println("temp: "+tempResult);
-            }
-            if (regex.charAt(regexCharPosition)!='.' && dotCount>0){
-                System.out.println(regexCharPosition);
-                tempResult.append(convertToDots(dotCount));
-                result.add(tempResult.toString());
-                dotCount=0;
-                tempResult.delete(0, regex.length());
-                tempResult.append(regex.charAt(regexCharPosition));
-            }
-            if (regexCharPosition==regex.length()-1){
-                result.add(tempResult.toString());
-            }
-
-
+//                if (dotCount>0 && value.length()!=0){
+//                    result.add(new RegexSplit(value.toString(),dotCount));
+//                    value.delete(0,value.length());
+//                }
+                if (regexCharPosition < regex.length() && regex.charAt(regexCharPosition)!='.' ){
+                    value.append(regex.charAt(regexCharPosition));
+                }
+                if (dotCount > 0 || regexCharPosition >= regex.length()){
+                    result.add(new RegexSplit(value.toString(),dotCount));
+                    System.out.println(value.toString());
+                }
         }
 
         return result;
+    }
+
+    private static class RegexSplit {
+        private String partLiteral;
+        private int dotCount;
+
+        public String getPartLiteral() {
+            return partLiteral;
+        }
+
+        public void setPartLiteral(String partLiteral) {
+            this.partLiteral = partLiteral;
+        }
+
+        public int getDotCount() {
+            return dotCount;
+        }
+
+        public void setDotCount(int dotCount) {
+            this.dotCount = dotCount;
+        }
+
+        public RegexSplit(String partLiteral, int dotCount) {
+            this.partLiteral = partLiteral;
+            this.dotCount = dotCount;
+        }
     }
 
     public static List<String> match(String phrase,String regex){

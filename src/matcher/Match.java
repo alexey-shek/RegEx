@@ -17,7 +17,6 @@ public class Match {
         for (RegexSplit rs : partResult) {
             System.out.println(rs.getPartLiteral()+rs.getDotCount());
         }
-
         return result;
     }
 

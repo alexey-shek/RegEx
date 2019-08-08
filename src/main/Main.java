@@ -8,7 +8,7 @@ public class Main {
 
     public static void main(String[] args) {
         String inputPhrase = "baa bab baa bbb";
-        String inputRegEx = "b..a";
+        String inputRegEx = "....ab";
         System.out.println("phrase: "+inputPhrase+", RegEx: "+inputRegEx);
 
         //Match.matching(inputPhrase,inputRegEx);

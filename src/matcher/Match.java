@@ -14,8 +14,9 @@ public class Match {
 
 
         partResult= dotSplit(regex);
-        System.out.println(partResult.get(0));
-        System.out.println(partResult.get(1));
+        for (RegexSplit rs : partResult) {
+            System.out.println(rs.getPartLiteral()+rs.getDotCount());
+        }
 
         return result;
     }
@@ -29,6 +30,10 @@ public class Match {
             while (regex.charAt(regexCharPosition)=='.'){
                 dotCount++;
                 regexCharPosition++;
+                if (regexCharPosition==regex.length()-1){
+                    dotCount++;
+                    break;
+                }
             }
             if (dotCount!=0 && regex.charAt(regexCharPosition)!='.' ){
                 result.add(new RegexSplit(value.toString(),dotCount));

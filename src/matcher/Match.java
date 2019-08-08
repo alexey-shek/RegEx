@@ -14,11 +14,8 @@ public class Match {
 
 
         partResult= dotSplit(regex);
-        System.out.println(partResult);
-        for (RegexSplit e: partResult
-             ) {
-            System.out.println(e.getPartLiteral()+" "+e.getDotCount());
-        }
+        System.out.println(partResult.get(0));
+        System.out.println(partResult.get(1));
 
         return result;
     }
@@ -29,21 +26,24 @@ public class Match {
         int dotCount = 0;
         for (int regexCharPosition = 0; regexCharPosition < regex.length(); regexCharPosition++) {
 
-                while (regex.charAt(regexCharPosition)=='.'){
-                    dotCount++;
-                    regexCharPosition++;
-                }
-//                if (dotCount>0 && value.length()!=0){
-//                    result.add(new RegexSplit(value.toString(),dotCount));
-//                    value.delete(0,value.length());
-//                }
-                if (regexCharPosition < regex.length() && regex.charAt(regexCharPosition)!='.' ){
-                    value.append(regex.charAt(regexCharPosition));
-                }
-                if (dotCount > 0 || regexCharPosition >= regex.length()){
-                    result.add(new RegexSplit(value.toString(),dotCount));
-                    System.out.println(value.toString());
-                }
+            while (regex.charAt(regexCharPosition)=='.'){
+                dotCount++;
+                regexCharPosition++;
+            }
+            if (dotCount!=0 && regex.charAt(regexCharPosition)!='.' ){
+                result.add(new RegexSplit(value.toString(),dotCount));
+                dotCount=0;
+                value.delete(0,value.length());
+            }
+            if (dotCount==0 && regex.charAt(regexCharPosition)!='.' ){
+                value.append(regex.charAt(regexCharPosition));
+            }
+            if (dotCount == 0 && value.length()==0){
+                value.append(regex.charAt(regexCharPosition));
+            }
+            if (regexCharPosition==regex.length()-1){
+                result.add(new RegexSplit(value.toString(),dotCount));
+            }
         }
 
         return result;
